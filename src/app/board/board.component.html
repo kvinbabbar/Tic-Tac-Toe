@@ -1,0 +1,40 @@
+<div class="container-fluid">
+  <div class="game-top">
+    <h3 *ngIf="!gameOver && !isDraw;">{{whoseTurn}}'s turn</h3>
+    <h3 *ngIf="gameOver && !isDraw">{{lastWinner}} Won!</h3>
+    <h3 *ngIf="isDraw">It's draw!</h3>
+  </div>
+  <div class="game" [class.lockboard]="lockBoard">
+    <div *ngFor="let square of squares" 
+      class="game-field" 
+      [ngClass]="{  
+          'lock-box': square.locked,
+          'win': square.winner
+      }"
+      (click)="clickSquare(square)"><i *ngIf="square.value" [class]="square.value"></i></div>
+  </div>
+  <div class="game-bottom">
+    <button class="btn btn-danger" (click)="resetGame()">Reset Game</button>
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title text-center w-100">Tic Tac Toe Game</h4>
+    </div>
+    <div class="modal-body">
+      <h3>Welcome to the Tic Tac Toe Game!</h3>
+      <p>It’s time to choose your figure.</p>
+      <p id="test"></p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" id="x" class="btn" (click)="modalRef.hide()">
+        <i class="fas fa-times"></i>
+      </button>
+      <button type="button" id="o" class="btn" (click)="modalRef.hide()">
+        <i class="fas fa-circle"></i>
+      </button>
+    </div>
+  </div>
+</ng-template>
