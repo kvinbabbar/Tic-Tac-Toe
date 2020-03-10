@@ -28,10 +28,18 @@ export class BoardComponent implements OnInit {
       symbol: 'o',
     }
   }
+  scoreboard = {
+    user: null,
+    computer: null,
+    draw: null
+  }
   constructor(private modalService: BsModalService) { }
   squares: any[];
   ngOnInit() {
     this.newGame(this.whoseTurn);
+    this.scoreboard.user = Number(localStorage.getItem('users-score')) || 0;
+    this.scoreboard.computer = Number(localStorage.getItem('computers-score')) || 0;
+    this.scoreboard.draw = Number(localStorage.getItem('draw-score')) || 0;
   }
 
   newGame(turn): void {
@@ -60,6 +68,9 @@ export class BoardComponent implements OnInit {
     if (winner) {
       this.lockBoard = true;
       this.lastWinner = this.players.user.name;
+      let currentScore = ++this.scoreboard.user;
+      console.log(currentScore);
+      localStorage.setItem('users-score', `${currentScore}`);
       this.gameOver = true;
     } else {
       this.whoseTurn = "computer"
@@ -92,6 +103,9 @@ export class BoardComponent implements OnInit {
           this.lockBoard = true;
           this.lastWinner = this.players.computer.name;
           this.gameOver = true;
+          let currentScore = ++this.scoreboard.computer;
+          console.log(currentScore);
+          localStorage.setItem('computers-score', `${currentScore}`);
         } else {
           this.whoseTurn = "user";
           this.lockBoard = false;
@@ -109,6 +123,12 @@ export class BoardComponent implements OnInit {
   }
   resetGame() {
     this.newGame(this.whoseTurn);
+    localStorage.setItem('users-score', '0');
+    localStorage.setItem('computers-score', '0');
+    localStorage.setItem('draw-score', '0');
+    this.scoreboard.user = Number(localStorage.getItem('users-score'));
+    this.scoreboard.computer = Number(localStorage.getItem('computers-score'));
+    this.scoreboard.draw = Number(localStorage.getItem('draw-score'));
   }
   checkWin(player) {
     const possibleWinnings = [
@@ -129,7 +149,7 @@ export class BoardComponent implements OnInit {
         this.squares[pattern[1]].checkedBy == currentPlayer &&
         this.squares[pattern[2]].checkedBy == currentPlayer;
     });
-    console.log(winningIndexs);
+    // console.log(winningIndexs);
     if (winningIndexs.length > 0) {
       winningIndexs.forEach((pattern) => {
         // console.log(squareIndex, 2);
@@ -142,6 +162,9 @@ export class BoardComponent implements OnInit {
     const emptySquares = this.checkEmptySquares();
     if (emptySquares.length == 0) {
       this.isDraw = true;
+      let currentScore = ++this.scoreboard.draw;
+      console.log(currentScore);
+      localStorage.setItem('draw-score', `${currentScore}`);
     }
     return false;
   }
