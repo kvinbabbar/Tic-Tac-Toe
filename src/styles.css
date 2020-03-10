@@ -122,3 +122,8 @@ body {
   background: #0b184c;
   transition: 200ms;
 }
+.scoreboard table th,
+.scoreboard table td{
+  color: #fff;
+  text-align: center;
+}

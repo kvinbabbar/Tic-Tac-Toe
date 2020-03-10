@@ -1,4 +1,22 @@
 <div class="container-fluid">
+  <div class="scoreboard">
+    <table class="table table-border table-striped">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Computer</th>
+          <th>Draw</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{scoreboard.user}}</td>
+          <td>{{scoreboard.computer}}</td>
+          <td>{{scoreboard.draw}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div class="game-top">
     <h3 *ngIf="!gameOver && !isDraw;">{{whoseTurn}}'s turn</h3>
     <h3 *ngIf="gameOver && !isDraw">{{lastWinner}} Won!</h3>
@@ -11,9 +29,10 @@
           'lock-box': square.locked,
           'win': square.winner
       }"
-      (click)="clickSquare(square)"><i *ngIf="square.value" [class]="square.value"></i></div>
+      (click)="clickSquare(square)"><i *ngIf="square.value" class="fa" [class]="square.value"></i></div>
   </div>
-  <div class="game-bottom">
+  <div class="game-bottom mb-3">
+    <button class="btn btn-primary mr-3" (click)="newGame()">New Game</button>
     <button class="btn btn-danger" (click)="resetGame()">Reset Game</button>
   </div>
 </div>
